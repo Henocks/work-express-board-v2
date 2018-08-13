@@ -1,55 +1,54 @@
 var express = require("express");
-var router  = express.Router();
-var passport= require("../config/passport");
+var router = express.Router();
+var passport = require("../config/passport");
 
 // Home
-router.get("/", function(req, res){
+router.get("/", (req, res) => {
   res.render("home/welcome");
 });
-router.get("/about", function(req, res){
+router.get("/about", (req, res) => {
   res.render("home/about");
 });
 
 // Login
-router.get("/login", function (req,res) {
+router.get("/login", (req, res) => {
   const username = req.flash("username")[0];
   const errors = req.flash("errors")[0] || {};
   res.render("home/login", {
-    username:username,
-    errors:errors
+    username: username,
+    errors: errors
   });
 });
 
 // Post Login
-router.post("/login",
-  function(req,res,next){
-    const errors = {};
-    const isValid = true;
+router.post("/login", (req, res, next) => {
+  const errors = {};
+  const isValid = true;
 
-    if(!req.body.username){
-      isValid = false;
-      errors.username = "Username is required!";
-    }
-    if(!req.body.password){
-      isValid = false;
-      errors.password = "Password is required!";
-    }
-
-    if(isValid){
-      next();
-    } else {
-      req.flash("errors",errors);
-      res.redirect("/login");
-    }
-  },
-  passport.authenticate("local-login", {
-    successRedirect : "/posts",
-    failureRedirect : "/login"
+  if (!req.body.username) {
+    isValid = false;
+    errors.username = "Username is required!";
   }
-));
+  if (!req.body.password) {
+    isValid = false;
+    errors.password = "Password is required!";
+  }
+
+  if (isValid) {
+    next();
+  } else {
+    req.flash("errors", errors);
+    res.redirect("/login");
+  }
+},
+  passport.authenticate("local-login", {
+    successRedirect: "/posts",
+    failureRedirect: "/login"
+  }
+  ));
 
 // Logout
-router.get("/logout", function(req, res) {
+router.get("/logout", (req, res) => {
   req.logout();
   res.redirect("/");
 });
