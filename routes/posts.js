@@ -1,7 +1,7 @@
-var express  = require("express");
-var router   = express.Router();
-var Post     = require("../models/Post");
-var util     = require("../util");
+const express = require("express");
+const router = express.Router();
+const Post = require("../models/Post");
+const util = require("../util");
 
 // Index
 router.get("/", function(req, res){
@@ -14,12 +14,14 @@ router.get("/", function(req, res){
   });
 });
 
+// New
 router.get("/new", util.isLoggedin, function(req, res){
-  var post = req.flash("post")[0] || {};
-  var errors = req.flash("errors")[0] || {};
+  const post = req.flash("post")[0] || {};
+  const errors = req.flash("errors")[0] || {};
   res.render("posts/new", { post:post, errors:errors });
 });
 
+// create
 router.post("/", util.isLoggedin, function(req, res){
   req.body.author = req.user._id;
   Post.create(req.body, function(err, post){
@@ -32,6 +34,7 @@ router.post("/", util.isLoggedin, function(req, res){
   });
 });
 
+// show
 router.get("/:id", function(req, res){
   Post.findOne({_id:req.params.id})
   .populate("author")
@@ -41,9 +44,10 @@ router.get("/:id", function(req, res){
   });
 });
 
+// edit
 router.get("/:id/edit", util.isLoggedin, checkPermission, function(req, res){
-  var post = req.flash("post")[0];
-  var errors = req.flash("errors")[0] || {};
+  const post = req.flash("post")[0];
+  const errors = req.flash("errors")[0] || {};
   if(!post){
     Post.findOne({_id:req.params.id}, function(err, post){
       if(err) return res.json(err);
@@ -55,6 +59,7 @@ router.get("/:id/edit", util.isLoggedin, checkPermission, function(req, res){
   }
 });
 
+// update
 router.put("/:id", util.isLoggedin, checkPermission, function(req, res){
   req.body.updatedAt = Date.now();
   Post.findOneAndUpdate({_id:req.params.id}, req.body, {runValidators:true}, function(err, post){
@@ -67,6 +72,7 @@ router.put("/:id", util.isLoggedin, checkPermission, function(req, res){
   });
 });
 
+// destroy
 router.delete("/:id", util.isLoggedin, checkPermission, function(req, res){
   Post.remove({_id:req.params.id}, function(err){
     if(err) return res.json(err);

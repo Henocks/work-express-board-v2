@@ -12,8 +12,8 @@ router.get("/about", function(req, res){
 
 // Login
 router.get("/login", function (req,res) {
-  var username = req.flash("username")[0];
-  var errors = req.flash("errors")[0] || {};
+  const username = req.flash("username")[0];
+  const errors = req.flash("errors")[0] || {};
   res.render("home/login", {
     username:username,
     errors:errors
@@ -23,8 +23,8 @@ router.get("/login", function (req,res) {
 // Post Login
 router.post("/login",
   function(req,res,next){
-    var errors = {};
-    var isValid = true;
+    const errors = {};
+    const isValid = true;
 
     if(!req.body.username){
       isValid = false;

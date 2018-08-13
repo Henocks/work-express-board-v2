@@ -85,7 +85,7 @@ form .form-group{
 
 /* post style */
 .post {
-  max-width: 670px;
+  max-width: 80%;
   font-family: 'Open Sans', sans-serif;
   font-size: 12px;
 }
@@ -155,12 +155,12 @@ form .form-group{
 }
 .post-new,
 .post-edit{
-  max-width: 520px;
+  max-width: 80%;
 }
 
 /* user style */
 .user {
-  max-width: 320px;
+  max-width: 80%;
   font-family: 'Open Sans', sans-serif;
   font-size: 12px;
 }
